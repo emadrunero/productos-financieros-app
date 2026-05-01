@@ -1,0 +1,123 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="title-center">
+      <mat-icon>account_balance_wallet</mat-icon>
+      {{ 'app.title' | translate }}
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="row">
+      <div class="col-sm">
+        <form [formGroup]="form">
+          <mat-card>
+
+            <mat-card-header>
+              <mat-card-title class="title-center">
+                {{ 'product.form.create_title' | translate }}
+              </mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+              <div class="container">
+
+                <div class="row">
+                  <div class="col-sm">
+                    <mat-divider style="margin: 16px 0;"></mat-divider>
+                  </div>
+                </div>
+
+                <!-- ROW 1 -->
+                <div class="row">
+                  <div class="col-sm">
+                    <app-input-customer [label]="'product.form.fields.id' | translate" icon="key" controlName="id"
+                      [maxLength]="10" [minLength]="3" [showCounter]="true">
+                    </app-input-customer>
+                  </div>
+
+                  <div class="col-sm">
+                    <app-input-customer [label]="'product.form.fields.name' | translate" icon="account_balance"
+                      controlName="name" [maxLength]="100" [minLength]="5" [showCounter]="true">
+                    </app-input-customer>
+                  </div>
+                </div>
+
+                <!-- ROW 2 -->
+                <div class="row">
+                  <div class="col-sm">
+                    <app-input-customer [label]="'product.form.fields.description' | translate" icon="description"
+                      controlName="description" [maxLength]="200" [minLength]="10" [showCounter]="true">
+                    </app-input-customer>
+                  </div>
+
+                  <div class="col-sm">
+
+                    <app-input-customer [label]="'product.form.fields.logo' | translate "
+                      [placeholder]="'product.form.fields.logo_placeholder' | translate " icon="link" controlName="logo"
+                      [maxLength]="500" [minLength]="10" [showCounter]="true">
+                    </app-input-customer>
+
+
+
+                  </div>
+                </div>
+
+                <!-- ROW 3 -->
+                <div class="row">
+                  <div class="col-sm">
+                    <app-date-picker [label]="'product.form.fields.date_release' | translate" controlName="date_release"
+                      [minDate]="!isEdit ? today : null" (dateChange)="updateRevisionDate($event)">
+                    </app-date-picker>
+                  </div>
+
+                  <div class="col-sm">
+                    <mat-form-field appearance="outline" class="full-with">
+                      <mat-label>
+                        {{ 'product.form.fields.date_revision' | translate }}
+                      </mat-label>
+
+                      <span matPrefix>
+                        <mat-icon>calendar_today</mat-icon>
+                      </span>
+
+                      <input matInput [matDatepicker]="picker2" formControlName="date_revision" readonly>
+
+                      <mat-datepicker-toggle matSuffix [for]="picker2" [disabled]="true">
+                      </mat-datepicker-toggle>
+
+                      <mat-datepicker #picker2 disabled></mat-datepicker>
+
+                      <mat-error *ngIf="form.get('date_revision')?.hasError('required')">
+                        {{ 'error.required' | translate }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+              </div>
+            </mat-card-content>
+
+            <!-- ACTIONS -->
+            <mat-card-actions class="actions-center">
+
+              <button class="btn btn-gray" (click)="cancel()">
+                {{ 'button.reset' | translate }}
+              </button>
+
+              <button class="btn btn-yellow" (click)="save()" [class.loading]="isSaving">
+
+                {{
+                isSaving
+                ? ('message.loading' | translate)
+                : ('button.save' | translate)
+                }}
+              </button>
+
+            </mat-card-actions>
+
+          </mat-card>
+        </form>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

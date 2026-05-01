@@ -1,0 +1,20 @@
+<div class="modal-overlay">
+  <div class="modal-container">
+
+    <div class="modal-content">
+
+       {{ 'message.confirm_delete' | translate:{ value: dataShared! } }}
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-gray" (click)="cancelar()">
+       {{ 'button.cancel' | translate }}
+      </button>
+
+      <button class="btn btn-yellow" (click)="confirmar()">
+        {{ 'button.confirm' | translate }}
+      </button>
+    </div>
+
+  </div>
+</div>

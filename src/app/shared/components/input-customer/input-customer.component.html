@@ -1,0 +1,38 @@
+<mat-form-field appearance="outline" class="full-width">
+
+  <mat-icon *ngIf="icon" matPrefix>{{ icon }}</mat-icon>
+
+
+  <mat-label>
+    {{ label | translate }}
+  </mat-label>
+
+  <input matInput [formControl]="control" [attr.maxlength]="maxLength" [attr.minlength]="minLength"
+    placeholder="{{ validatePlaceholder() }}" />
+
+  <!-- Errores -->
+  <mat-error *ngIf="control.hasError('required')">
+    {{ 'error.required' | translate }}
+  </mat-error>
+
+  <mat-error *ngIf="control.touched && control.hasError('minlength')">
+    {{ 'error.min_length' | translate:{ value: minLength } }}
+  </mat-error>
+
+  <mat-error *ngIf="control.touched && control.hasError('maxlength')">
+    {{ 'error.max_length' | translate:{ value: maxLength } }}
+  </mat-error>
+  <mat-error *ngIf="control.hasError('idExists')">
+    {{ 'error.id_exists' | translate }}
+  </mat-error>
+
+  <!-- Contador -->
+  <mat-hint *ngIf="showCounter && maxLength" align="end">
+    {{
+    'product.form.counter' | translate:{
+    current: (control!.value!.length || 0),
+    max: maxLength
+    }
+    }}
+  </mat-hint>
+</mat-form-field>
