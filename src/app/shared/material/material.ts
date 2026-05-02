@@ -7,7 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
-// 🔥 NUEVOS
+//  NUEVOS
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
@@ -33,7 +33,7 @@ export const MATERIAL_MODULES = [
   MatSortModule,
   MatTooltipModule,
 
-  // 🔥 IMPORTANTES
+  //  IMPORTANTES
   MatFormFieldModule,
   MatToolbarModule,
   MatMenuModule,
