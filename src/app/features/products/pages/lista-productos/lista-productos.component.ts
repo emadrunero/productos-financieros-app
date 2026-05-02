@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ProductosService } from '../../services/productos.service';
 import { CuadroDialogoComponent } from '../../../../shared/components/cuadro-dialogo/cuadro-dialogo.component';
 import { MATERIAL_MODULES } from '../../../../shared/material/material';
 import { Router, RouterModule } from '@angular/router';
@@ -11,6 +10,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Productos } from '../../models/productos.model';
+import { IProductosService } from '../../services/IProductosService';
+import { PRODUCTOS_SERVICE } from '../../services/product-service/productos.token';
+
 
 @Component({
   selector: 'app-lista-productos',
@@ -34,7 +36,10 @@ export class ListaProductosComponent implements OnInit {
   search = '';
   pageSize = 5;
 
-  constructor(private readonly service: ProductosService, private readonly dialog: MatDialog, public readonly translate: TranslateService,
+  constructor(
+    @Inject(PRODUCTOS_SERVICE) private readonly service: IProductosService,
+    private readonly dialog: MatDialog,
+    public readonly translate: TranslateService,
     private readonly router: Router) { }
 
 

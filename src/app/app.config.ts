@@ -9,6 +9,8 @@ import { provideTranslations } from './core/config/translate.config';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
 import { CustomPaginatorIntl } from './core/config/paginator-intl';
+import { PRODUCTOS_SERVICE } from './features/products/services/product-service/productos.token';
+import { ProductosService } from './features/products/services/productos.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +22,10 @@ export const appConfig: ApplicationConfig = {
       useFactory: (translate: TranslateService) =>
         new CustomPaginatorIntl(translate),
       deps: [TranslateService]
+    },
+    {
+      provide: PRODUCTOS_SERVICE,
+      useClass: ProductosService
     }
   ]
 };

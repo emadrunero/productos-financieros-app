@@ -4,11 +4,19 @@ import { ListaProductosComponent } from './lista-productos.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { PRODUCTOS_SERVICE } from '../../services/product-service/productos.token';
+import { of, throwError } from 'rxjs';
 
 describe('ListaProductosComponent', () => {
   let component: ListaProductosComponent;
   let fixture: ComponentFixture<ListaProductosComponent>;
-
+  const mockService = {
+    getProductos: jest.fn().mockReturnValue(of([])),
+    crear: jest.fn().mockReturnValue(of({})),
+    actualizar: jest.fn().mockReturnValue(of({})),
+    eliminar: jest.fn().mockReturnValue(of({})),
+    verificarId: jest.fn().mockReturnValue(of(false)),
+  };
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -27,9 +35,15 @@ describe('ListaProductosComponent', () => {
               }
             }
           }
+        },
+        {
+          provide: PRODUCTOS_SERVICE,
+          useValue: mockService
         }
       ]
     }).compileComponents();
+    jest.clearAllMocks();
+    mockService.getProductos.mockReturnValue(of([]));
 
     fixture = TestBed.createComponent(ListaProductosComponent);
     component = fixture.componentInstance;
@@ -53,5 +67,15 @@ describe('ListaProductosComponent', () => {
     const result = component.dataSource.filteredData;
 
     expect(result.length).toBe(1);
+  });
+  // 3
+  it('debe manejar error al obtener productos', () => {
+    mockService.getProductos.mockReturnValue(
+      throwError(() => new Error('Error'))
+    );
+
+    fixture.detectChanges();
+
+    expect(component.productos).toEqual([]);
   });
 });

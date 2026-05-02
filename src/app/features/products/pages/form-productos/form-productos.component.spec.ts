@@ -5,11 +5,18 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
+import { PRODUCTOS_SERVICE } from '../../services/product-service/productos.token';
 
 describe('FormProductosComponent', () => {
   let component: FormProductosComponent;
   let fixture: ComponentFixture<FormProductosComponent>;
-
+  const mockService = {
+    getProductos: jest.fn().mockReturnValue(of([])),
+    crear: jest.fn().mockReturnValue(of({})),
+    actualizar: jest.fn().mockReturnValue(of({})),
+    eliminar: jest.fn().mockReturnValue(of({})),
+    verificarId: jest.fn().mockReturnValue(of(false)),
+  };
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -28,9 +35,16 @@ describe('FormProductosComponent', () => {
               }
             }
           }
+        },
+        {
+          provide: PRODUCTOS_SERVICE,
+          useValue: mockService
         }
       ]
     }).compileComponents();
+
+    jest.clearAllMocks();
+    mockService.getProductos.mockReturnValue(of([]));
 
     fixture = TestBed.createComponent(FormProductosComponent);
     component = fixture.componentInstance;
@@ -191,5 +205,26 @@ describe('FormProductosComponent', () => {
 
     expect(service.crear).not.toHaveBeenCalled();
   });
+  // 11
+  it('debe marcar error si el id ya existe', (done) => {
+    mockService.verificarId.mockReturnValue(of(true));
 
+    const control = component.form.get('id');
+    control?.setValue('ABC123');
+
+    setTimeout(() => {
+      expect(control?.errors).toEqual({ idExists: true });
+      done();
+    });
+  });
+  // 12
+  it('no debe guardar si formulario inválido', () => {
+    const service = TestBed.inject(PRODUCTOS_SERVICE) as any;
+
+    component.form.reset();
+
+    component.save();
+
+    expect(service.crear).not.toHaveBeenCalled();
+  });
 });

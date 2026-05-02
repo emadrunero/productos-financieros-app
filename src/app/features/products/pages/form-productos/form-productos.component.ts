@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MATERIAL_MODULES } from '../../../../shared/material/material';
-import { ProductosService } from '../../services/productos.service';
 import { catchError, map, of } from 'rxjs';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { InputCustomerComponent } from '../../../../shared/components/input-customer/input-customer.component';
@@ -11,6 +10,8 @@ import { minDateValidator } from '../../../../shared/validators/date.validator';
 import { DatePickerComponent } from '../../../../shared/components/date-picker/date-picker.component';
 import { CuadroDialogoComponent } from '../../../../shared/components/cuadro-dialogo/cuadro-dialogo.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { IProductosService } from '../../services/IProductosService';
+import { PRODUCTOS_SERVICE } from '../../services/product-service/productos.token';
 export const MY_DATE_FORMATS = {
   parse: {
     dateInput: 'DD/MM/YYYY',
@@ -64,7 +65,7 @@ export class FormProductosComponent implements OnInit {
   });
   constructor(
     private readonly fb: FormBuilder,
-    private readonly service: ProductosService,
+    @Inject(PRODUCTOS_SERVICE) private readonly service: IProductosService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     public readonly translate: TranslateService

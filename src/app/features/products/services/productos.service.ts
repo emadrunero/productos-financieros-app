@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Productos } from '../models/productos.model';
 import { LoggerService } from '../../../core/services/logger.service';
-import { IProductosService } from './IproductosService';
+import { IProductosService } from './IProductosService';
 
 
 const baseUrl = '/bp/products';
